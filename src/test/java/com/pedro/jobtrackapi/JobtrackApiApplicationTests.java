@@ -1,0 +1,13 @@
+package com.pedro.jobtrackapi;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class JobtrackApiApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
