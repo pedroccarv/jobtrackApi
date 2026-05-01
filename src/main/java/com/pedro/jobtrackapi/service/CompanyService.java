@@ -48,6 +48,11 @@ public class CompanyService {
         return toResponse(updatedCompany);
     }
 
+    public void deleteCompany(Long id){
+        Company company = findCompanyEntityById(id);
+        companyRepository.delete(company);
+    }
+
     private Company toEntity(CreateCompanyRequest companyRequest) {
         Company company = new Company();
         company.setName(companyRequest.name());
