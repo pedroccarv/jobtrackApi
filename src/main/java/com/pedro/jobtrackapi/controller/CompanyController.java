@@ -2,6 +2,8 @@ package com.pedro.jobtrackapi.controller;
 
 import com.pedro.jobtrackapi.dto.company.CompanyResponse;
 import com.pedro.jobtrackapi.dto.company.CreateCompanyRequest;
+import com.pedro.jobtrackapi.dto.company.UpdateCompanyRequest;
+import com.pedro.jobtrackapi.repository.CompanyRepository;
 import com.pedro.jobtrackapi.service.CompanyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyService companyService;
+    private final CompanyRepository companyRepository;
 
     @PostMapping
     public ResponseEntity<CompanyResponse> createCompany(@Valid @RequestBody CreateCompanyRequest dto){
@@ -29,9 +32,16 @@ public class CompanyController {
         List<CompanyResponse> companyResponses = companyService.findAll();
         return ResponseEntity.ok(companyResponses);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<CompanyResponse> getCompany(@PathVariable Long id){
         CompanyResponse company = companyService.findCompanyById(id);
+        return ResponseEntity.ok(company);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CompanyResponse> updateCompany(@PathVariable Long id, @Valid @RequestBody UpdateCompanyRequest dto){
+        CompanyResponse company = companyService.updateCompany(id, dto);
         return ResponseEntity.ok(company);
     }
 }

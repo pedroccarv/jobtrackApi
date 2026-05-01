@@ -2,11 +2,11 @@ package com.pedro.jobtrackapi.service;
 
 import com.pedro.jobtrackapi.dto.company.CompanyResponse;
 import com.pedro.jobtrackapi.dto.company.CreateCompanyRequest;
+import com.pedro.jobtrackapi.dto.company.UpdateCompanyRequest;
 import com.pedro.jobtrackapi.model.Company;
 import com.pedro.jobtrackapi.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,9 +30,22 @@ public class CompanyService {
     }
 
     public CompanyResponse findCompanyById(Long id){
-        Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found"));
+        Company company = findCompanyEntityById(id);
         return toResponse(company);
+    }
+
+    public CompanyResponse updateCompany(Long id, UpdateCompanyRequest companyUpdate) {
+        Company company = findCompanyEntityById(id);
+
+        company.setName(companyUpdate.name());
+        company.setLinkedinUrl(companyUpdate.linkedinUrl());
+        company.setWebsiteUrl(companyUpdate.websiteUrl());
+        company.setNotes(companyUpdate.notes());
+        company.setLocation(companyUpdate.location());
+
+        Company updatedCompany = companyRepository.save(company);
+
+        return toResponse(updatedCompany);
     }
 
     private Company toEntity(CreateCompanyRequest companyRequest) {
@@ -53,5 +66,10 @@ public class CompanyService {
                 company.getWebsiteUrl(),
                 company.getLocation(),
                 company.getNotes());
+    }
+
+    private Company findCompanyEntityById(Long id){
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found"));
     }
 }
