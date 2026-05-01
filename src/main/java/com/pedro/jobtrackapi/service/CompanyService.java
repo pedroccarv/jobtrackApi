@@ -7,6 +7,8 @@ import com.pedro.jobtrackapi.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
@@ -17,6 +19,11 @@ public class CompanyService {
         Company company = toEntity(companyRequest);
         Company savedCompany = companyRepository.save(company);
         return toResponse(savedCompany);
+    }
+
+    public List<CompanyResponse> findAll() {
+        List<Company> allCompanies = companyRepository.findAll();
+        return allCompanies.stream().map(this::toResponse).toList();
     }
 
     private Company toEntity(CreateCompanyRequest companyRequest) {
