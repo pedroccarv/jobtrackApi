@@ -5,7 +5,10 @@ import com.pedro.jobtrackapi.dto.company.CreateCompanyRequest;
 import com.pedro.jobtrackapi.model.Company;
 import com.pedro.jobtrackapi.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,6 +27,12 @@ public class CompanyService {
     public List<CompanyResponse> findAll() {
         List<Company> allCompanies = companyRepository.findAll();
         return allCompanies.stream().map(this::toResponse).toList();
+    }
+
+    public CompanyResponse findCompanyById(Long id){
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found"));
+        return toResponse(company);
     }
 
     private Company toEntity(CreateCompanyRequest companyRequest) {

@@ -27,7 +27,11 @@ public class CompanyController {
     @GetMapping
     public ResponseEntity<List<CompanyResponse>> allCompanies() {
         List<CompanyResponse> companyResponses = companyService.findAll();
-        return  ResponseEntity.ok(companyResponses);
+        return ResponseEntity.ok(companyResponses);
     }
-
+    @GetMapping("/{id}")
+    public ResponseEntity<CompanyResponse> getCompany(@PathVariable Long id){
+        CompanyResponse company = companyService.findCompanyById(id);
+        return ResponseEntity.ok(company);
+    }
 }
