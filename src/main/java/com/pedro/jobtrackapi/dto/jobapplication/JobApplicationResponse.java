@@ -1,4 +1,4 @@
-package com.pedro.jobtrackapi.dto.jobApplication;
+package com.pedro.jobtrackapi.dto.jobapplication;
 
 import com.pedro.jobtrackapi.enums.ApplicationStatus;
 
