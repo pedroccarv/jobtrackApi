@@ -2,8 +2,6 @@ package com.pedro.jobtrackapi.dto.interview;
 
 import com.pedro.jobtrackapi.enums.InterviewType;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
