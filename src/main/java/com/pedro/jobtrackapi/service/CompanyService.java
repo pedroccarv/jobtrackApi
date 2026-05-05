@@ -3,12 +3,11 @@ package com.pedro.jobtrackapi.service;
 import com.pedro.jobtrackapi.dto.company.CompanyResponse;
 import com.pedro.jobtrackapi.dto.company.CreateCompanyRequest;
 import com.pedro.jobtrackapi.dto.company.UpdateCompanyRequest;
+import com.pedro.jobtrackapi.exception.ResourceNotFoundException;
 import com.pedro.jobtrackapi.model.Company;
 import com.pedro.jobtrackapi.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -75,6 +74,6 @@ public class CompanyService {
 
     private Company findCompanyEntityById(Long id){
         return companyRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
     }
 }

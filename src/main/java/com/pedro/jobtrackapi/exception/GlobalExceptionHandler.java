@@ -41,4 +41,26 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ApiError handleResourceNotFoundException(ResourceNotFoundException exception, HttpServletRequest request) {
+        return new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ApiError handleBusinessException(BusinessException exception, HttpServletRequest request) {
+        return new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
 }

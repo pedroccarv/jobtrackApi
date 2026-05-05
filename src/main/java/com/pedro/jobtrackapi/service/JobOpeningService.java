@@ -3,14 +3,13 @@ package com.pedro.jobtrackapi.service;
 import com.pedro.jobtrackapi.dto.jobopening.CreateJobOpeningRequest;
 import com.pedro.jobtrackapi.dto.jobopening.JobOpeningResponse;
 import com.pedro.jobtrackapi.dto.jobopening.UpdateJobOpeningRequest;
+import com.pedro.jobtrackapi.exception.ResourceNotFoundException;
 import com.pedro.jobtrackapi.model.Company;
 import com.pedro.jobtrackapi.model.JobOpening;
 import com.pedro.jobtrackapi.repository.CompanyRepository;
 import com.pedro.jobtrackapi.repository.JobOpeningRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -57,7 +56,7 @@ public class JobOpeningService {
 
     private JobOpening findJobOpeningEntityById(Long id) {
         return jobOpeningRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job opening not found"));
+                .orElseThrow(() -> new ResourceNotFoundException( "Job opening not found"));
     }
 
     private JobOpeningResponse toResponse(JobOpening savedJobOpening) {
@@ -90,6 +89,6 @@ public class JobOpeningService {
 
     private Company findCompanyId(Long id){
         return companyRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
     }
 }

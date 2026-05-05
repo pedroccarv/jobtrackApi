@@ -3,12 +3,11 @@ package com.pedro.jobtrackapi.service;
 import com.pedro.jobtrackapi.dto.technology.CreateTechnologyRequest;
 import com.pedro.jobtrackapi.dto.technology.TechnologyResponse;
 import com.pedro.jobtrackapi.dto.technology.UpdateTechnologyRequest;
+import com.pedro.jobtrackapi.exception.ResourceNotFoundException;
 import com.pedro.jobtrackapi.model.Technology;
 import com.pedro.jobtrackapi.repository.TechnologyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
@@ -44,7 +43,7 @@ public class TechnologyService {
 
     private Technology findEntityById(Long id) {
         return  technologyRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Technology not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Technology not found"));
     }
 
 

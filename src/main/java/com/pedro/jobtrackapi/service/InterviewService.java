@@ -4,15 +4,13 @@ import com.pedro.jobtrackapi.dto.interview.CreateInterviewRequest;
 import com.pedro.jobtrackapi.dto.interview.InterviewResponse;
 import com.pedro.jobtrackapi.dto.interview.UpdateInterviewRequest;
 import com.pedro.jobtrackapi.enums.ApplicationStatus;
+import com.pedro.jobtrackapi.exception.ResourceNotFoundException;
 import com.pedro.jobtrackapi.model.Interview;
 import com.pedro.jobtrackapi.model.JobApplication;
 import com.pedro.jobtrackapi.repository.InterviewRepository;
 import com.pedro.jobtrackapi.repository.JobApplicationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @Service
@@ -60,12 +58,12 @@ public class InterviewService {
 
     private JobApplication findJobApplicationEntity(Long jobApplicationId) {
         return jobApplicationRepository.findById(jobApplicationId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job Application not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Job Application not found"));
     }
 
     private Interview getInterviewEntity(Long id){
         return  interviewRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Interview not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Interview not found"));
     }
 
     private InterviewResponse toResponse(Interview interview){

@@ -4,14 +4,14 @@ import com.pedro.jobtrackapi.dto.jobapplication.CreateJobApplicationRequest;
 import com.pedro.jobtrackapi.dto.jobapplication.JobApplicationResponse;
 import com.pedro.jobtrackapi.dto.jobapplication.UpdateJobApplicationRequest;
 import com.pedro.jobtrackapi.enums.ApplicationStatus;
+import com.pedro.jobtrackapi.exception.BusinessException;
+import com.pedro.jobtrackapi.exception.ResourceNotFoundException;
 import com.pedro.jobtrackapi.model.JobApplication;
 import com.pedro.jobtrackapi.model.JobOpening;
 import com.pedro.jobtrackapi.repository.JobApplicationRepository;
 import com.pedro.jobtrackapi.repository.JobOpeningRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,7 +36,7 @@ public class JobApplicationService {
     public JobApplicationResponse createJobApplication(CreateJobApplicationRequest request) {
         JobOpening jobOpening = findJobOpeningById(request.jobOpeningId());
         if (jobApplicationRepository.existsByJobOpening(jobOpening)){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Job already exists");
+            throw new BusinessException("Job already exists");
         };
         JobApplication jobApplication = toEntity(request, jobOpening);
         JobApplication savedJobApplication = jobApplicationRepository.save(jobApplication);
@@ -62,7 +62,7 @@ public class JobApplicationService {
 
     private JobApplication findJobApplicationEntity(Long id){
         return jobApplicationRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job Application Not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException( "Job Application Not Found"));
     }
 
     private JobApplicationResponse toResponse(JobApplication jobApplication) {
@@ -91,6 +91,6 @@ public class JobApplicationService {
 
     private JobOpening findJobOpeningById(Long id){
         return jobOpeningRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job Opening Not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Job Opening Not Found"));
     }
 }
