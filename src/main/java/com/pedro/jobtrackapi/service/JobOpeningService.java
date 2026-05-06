@@ -54,7 +54,7 @@ public class JobOpeningService {
         jobOpening.setTitle(update.title());
         jobOpening.setLevel(update.level());
         jobOpening.setWorkMode(update.workMode());
-            jobOpening.setCompany(findCompanyById(update.companyId()));
+        jobOpening.setCompany(findCompanyById(update.companyId()));
         jobOpening.setDescription(update.description());
         jobOpening.setPostedAt(update.postedAt());
         jobOpening.setTechnologies(findTechnologiesByIds(update.technologyIds()));
